@@ -28,7 +28,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   &:before {
-    background-image: url("/images/home-background.png");
+    background-image: url("/images/login-background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     content: "";

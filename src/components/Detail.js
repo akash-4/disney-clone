@@ -93,7 +93,10 @@ const ImageTitle = styled.div`
 
 const Controls = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-start;
+  height: 125px;
 `;
 
 const PlayButton = styled.button`
@@ -112,6 +115,12 @@ const PlayButton = styled.button`
 
   &:hover {
     background: rgb(198, 198, 198);
+  }
+
+  @media (max-width: 767px) {
+    transform: scale(0.9);
+    padding: 15px;
+    margin-right: 0px;
   }
 `;
 
@@ -155,4 +164,5 @@ const Description = styled.div`
   margin-top: 16px;
   color: rgb(249, 249, 249);
   max-width: 76 0px;
+  margin-bottom: 20px;
 `;

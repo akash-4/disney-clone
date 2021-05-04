@@ -21,7 +21,7 @@ function ImgSlider() {
         <img src="/images/slider-badag.jpg" alt="" />
       </Wrap>
       <Wrap>
-        <img src="/images/slider-badging.jpg" alt="" />
+        <img src="/images/slider-scale.jpg" alt="" />
       </Wrap>
     </Carousel>
   );
@@ -51,6 +51,7 @@ const Carousel = styled(Slider)`
 const Wrap = styled.div`
   cursor: pointer;
   img {
+    height: 30vh;
     border: 4px solid transparent;
     border-radius: 4px;
     width: 100%;
