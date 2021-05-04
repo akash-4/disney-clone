@@ -9,14 +9,14 @@ import {
 } from "../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { auth, provider } from "../firebase";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 function Header() {
   const history = useHistory();
   const dispatch = useDispatch();
   const userName = useSelector(selectUserName);
   const userEmail = useSelector(selectUserEmail);
   const userPhoto = useSelector(selectUserPhoto);
-
+  const { id } = useParams();
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -27,7 +27,7 @@ function Header() {
             photo: user.photoURL,
           })
         );
-        history.push("/");
+        history.push(`/detail/${id}`);
       }
     });
   }, []);
@@ -66,7 +66,7 @@ function Header() {
                 <span>HOME</span>
               </a>
               <a>
-                <img src="/images/SEARCH-icon.svg" />
+                <img src="/images/search-icon.svg" />
                 <span>SEARCH</span>
               </a>
               <a>

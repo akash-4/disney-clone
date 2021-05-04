@@ -7,6 +7,8 @@ import { useHistory } from "react-router-dom";
 function Detail() {
   const history = useHistory();
   const { id } = useParams();
+  const [state, setState] = useState({});
+
   const [movie, setMovie] = useState();
   useEffect(() => {
     db.collection("movies")
@@ -20,6 +22,9 @@ function Detail() {
           history.push("/");
         }
       });
+    return () => {
+      setState({}); // This worked for me
+    };
   }, []);
   return (
     <Container>
