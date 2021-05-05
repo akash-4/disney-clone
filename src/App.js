@@ -7,24 +7,22 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Detail from "./components/Detail";
 import Login from "./components/Login";
 import { Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectUserName } from "./features/user/userSlice";
-
+import { useCookies } from "react-cookie";
 function App() {
-  const userName = useSelector(selectUserName);
+  const [cookies] = useCookies(["name"]);
   return (
     <div className="App">
       <Router>
         <Header />
         <Switch>
-          <Route path="/detail/:id">
+          <Route path="/detail">
             <Detail />
           </Route>
           <Route path="/login">
             <Login />
           </Route>
           <Route path="/">
-            {!userName ? <Redirect to="/login" /> : <Home />}
+            {!cookies.token ? <Redirect to="/login" /> : <Home />}
           </Route>
         </Switch>
       </Router>

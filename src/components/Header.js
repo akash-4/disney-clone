@@ -9,17 +9,25 @@ import {
 } from "../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { auth, provider } from "../firebase";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { useCookies } from "react-cookie";
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 function Header() {
+  const [cookies, setCookie, removeCookie] = useCookies(["disney-clone"]);
   const history = useHistory();
   const dispatch = useDispatch();
   const userName = useSelector(selectUserName);
   const userEmail = useSelector(selectUserEmail);
   const userPhoto = useSelector(selectUserPhoto);
-  const { id } = useParams();
+  const query = useQuery();
+  const id = query.get("movie");
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
+        console.log(user);
+        setCookie("token", user.za);
         dispatch(
           setUserLogin({
             name: user.displayName,
@@ -27,7 +35,7 @@ function Header() {
             photo: user.photoURL,
           })
         );
-        history.push(`/detail/${id}`);
+        id ? history.push(`/detail?movie=${id}`) : history.push("/");
       }
     });
   }, []);
@@ -35,6 +43,7 @@ function Header() {
   const signIn = () => {
     auth.signInWithPopup(provider).then((result) => {
       let user = result.user;
+      setCookie("token", user.za);
       dispatch(
         setUserLogin({
           name: user.displayName,
@@ -46,6 +55,7 @@ function Header() {
   };
   const signOut = () => {
     auth.signOut().then(() => {
+      removeCookie("token");
       dispatch(setSignOut());
       history.push("/login");
     });

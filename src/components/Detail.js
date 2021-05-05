@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
 import db from "../firebase";
-
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 function Detail() {
   const history = useHistory();
-  const { id } = useParams();
+  const query = useQuery();
+  const id = query.get("movie") ? query.get("movie") : "";
   const [state, setState] = useState({});
 
   const [movie, setMovie] = useState();
   useEffect(() => {
-    db.collection("movies")
-      .doc(id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          setMovie(doc.data());
-        } else {
-          //redirect
-          history.push("/");
-        }
-      });
+    if (id) {
+      db.collection("movies")
+        .doc(id)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            setMovie(doc.data());
+          } else {
+            //redirect
+            history.push("/");
+          }
+        });
+    } else {
+      //redirect
+      history.push("/");
+    }
     return () => {
       setState({}); // This worked for me
     };
