@@ -1,9 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   selectUserName,
   selectUserPhoto,
-  selectUserEmail,
   setUserLogin,
   setSignOut,
 } from "../features/user/userSlice";
@@ -15,11 +15,10 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 function Header() {
-  const [cookies, setCookie, removeCookie] = useCookies(["disney-clone"]);
+  const [setCookie, removeCookie] = useCookies(["disney-clone"]);
   const history = useHistory();
   const dispatch = useDispatch();
   const userName = useSelector(selectUserName);
-  const userEmail = useSelector(selectUserEmail);
   const userPhoto = useSelector(selectUserPhoto);
   const query = useQuery();
   const id = query.get("movie");
@@ -38,7 +37,7 @@ function Header() {
         id ? history.push(`/detail?movie=${id}`) : history.push("/");
       }
     });
-  }, []);
+  }, [dispatch, history, id, setCookie]);
 
   const signIn = () => {
     auth.signInWithPopup(provider).then((result) => {
@@ -72,27 +71,27 @@ function Header() {
           <>
             <NavMenu>
               <a>
-                <img src="/images/home-icon.svg" />
+                <img src="/images/home-icon.svg" alt="" />
                 <span>HOME</span>
               </a>
               <a>
-                <img src="/images/search-icon.svg" />
+                <img src="/images/search-icon.svg" alt="" />
                 <span>SEARCH</span>
               </a>
               <a>
-                <img src="/images/watchlist-icon.svg" />
+                <img src="/images/watchlist-icon.svg" alt="" />
                 <span>WATCHLIST</span>
               </a>
               <a>
-                <img src="/images/original-icon.svg" />
+                <img src="/images/original-icon.svg" alt="" />
                 <span>ORIGINALS</span>
               </a>
               <a>
-                <img src="/images/movie-icon.svg" />
+                <img src="/images/movie-icon.svg" alt="" />
                 <span>MOVIES</span>
               </a>
               <a>
-                <img src="/images/series-icon.svg" />
+                <img src="/images/series-icon.svg" alt="" />
                 <span>SERIES</span>
               </a>
             </NavMenu>
